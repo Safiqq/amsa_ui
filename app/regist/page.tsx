@@ -84,16 +84,9 @@ export default function FormPage() {
   }, [formData]);
 
   return (
-    <div className="relative h-full">
-      <div className="absolute inset-0">
-        <Image
-          src="/bg.png"
-          alt="Background image"
-          fill
-        />
-      </div>
+    <div className="bg-cover bg-center bg-no-repeat bg-fixed bg-bg">
 
-      <div className="relative h-screen flex flex-col items-center justify-center py-6 sm:px-6 lg:px-8">
+      <div className="flex flex-col items-center justify-center py-6 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="my-2 text-center text-3xl font-extrabold text-white">Registrasi Symposium <br></br> and Workshop</h2>
         </div>
