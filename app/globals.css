@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: 'alegreya';
+  src: url('/fonts/Alegreya-Regular.otf');
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
