@@ -87,8 +87,8 @@ export default function FormPage() {
     <div className="relative h-full">
       <div className="absolute inset-0">
         <Image
-          src="/background.png"
-          alt="background image"
+          src="/bg.png"
+          alt="Background image"
           fill
         />
       </div>
