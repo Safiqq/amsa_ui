@@ -1,81 +1,129 @@
 'use client';
 
-import Image from 'next/image';
+import PopupModal from '@/components/PopupModal';
 import React, { useState, useEffect } from 'react';
+
+const UPLOAD_URL = "https://amsa-ui-be.vercel.app/upload/";
+
+interface IRegistData {
+  nama: string,
+  noHp: string,
+  email: string,
+  instansi: string,
+  pekerjaan: string,
+  bundle: number,
+  kodeReferral: string,
+  buktiTransfer: {
+    file: string,
+    filename: string,
+    mimetype: string,
+  },
+  namaAkunTransfer: string,
+  bundleBuddies: string[],
+}
 
 console.warn = () => { };
 export default function FormPage() {
-  const [formData, setFormData] = useState({
+  const [registData, setRegistData] = useState<IRegistData>({
     nama: '',
     noHp: '',
     email: '',
-    // tempatLahir: '',
-    // tanggalLahir: '',
     instansi: '',
     pekerjaan: '',
     bundle: 0,
     kodeReferral: '',
-    buktiTransferBuffer: '',
-    buktiTransferFilename: '',
+    buktiTransfer: {
+      file: '',
+      filename: '',
+      mimetype: '',
+    },
     namaAkunTransfer: '',
+    bundleBuddies: [],
+  });
+  const [modal, setModal] = useState({
+    isVisible: false,
+    type: '',
+    message: '',
   });
   const [harga, setHarga] = useState(0);
 
+  const handleModal = (isVisible: boolean, type: string, message: string) => {
+    setModal({
+      isVisible: isVisible,
+      type: type,
+      message: message,
+    });
+  };
+
   const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;
-    if (name === "bundle") setFormData({ ...formData, [name]: parseInt(value) });
-    else setFormData({ ...formData, [name]: value });
+    if (name === "bundle") {
+      const newBundleBuddies = Array(parseInt(value) - 1).fill('');
+      for (let i = 0; i < Math.min(registData["bundle"], parseInt(value) - 1); i++) {
+        newBundleBuddies[i] = registData["bundleBuddies"][i];
+      }
+      setRegistData({ ...registData, [name]: parseInt(value), bundleBuddies: newBundleBuddies });
+    } else setRegistData({ ...registData, [name]: value });
+  };
+
+  const handleBundleInputChange = (event: any, index: any) => {
+    let newBundleBuddies = [...registData["bundleBuddies"]];
+    newBundleBuddies[index] = event.target.value;
+    setRegistData({ ...registData, bundleBuddies: newBundleBuddies });
   };
 
   const handleFileChange = (event: { target: { name: any; value: any, files: any; }; }) => {
     const { name, value, files } = event.target;
-    setFormData({ ...formData, [name + "Buffer"]: files[0], [name + "Filename"]: value });
+    if (files.length > 0) {
+      let reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = function (e) {
+        if (e.target) {
+          setRegistData({ ...registData, [name]: { file: e.target.result, filename: value.split('\\').pop().split('/').pop(), mimetype: files[0].type } });
+        }
+      };
+    }
   }
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    fetch('https://data.mongodb-api.com/app/data-hzefz/endpoint/data/v1/action/insertOne', {
+    fetch(UPLOAD_URL, {
       method: 'POST',
       headers: {
-        'Accept': '*/*',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/json',
-        'Access-Control-Request-Headers': '*',
-        'api-key': 'zKYQzKPyjCGeVbkoRQ6pZTLIxvbqVZNTatm7Zn7jHEqSO0ZljACRIRhxFfOpBO87'
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        dataSource: "amsui",
-        database: "amsui",
-        collection: "regist",
-        document: formData
-      })
+      body: JSON.stringify(registData)
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        if (data.statusCode === 201) {
+          handleModal(true, "success", "Registrasi berhasil!");
+        } else {
+          handleModal(true, "error", data.message);
+        }
       })
       .catch(error => {
         console.error(error);
+        handleModal(true, "error", "Terjadi error!");
       });
-    console.log(formData);
   };
 
   const hitungHarga = () => {
     let price;
 
-    if (formData["pekerjaan"] === "Spesialis") price = 320000;
-    else if (formData["pekerjaan"] === "Dokter") price = 215000;
-    else if (formData["pekerjaan"] === "Mahasiswa") price = 95000;
+    if (registData["pekerjaan"] === "Spesialis") price = 320000;
+    else if (registData["pekerjaan"] === "Dokter") price = 215000;
+    else if (registData["pekerjaan"] === "Mahasiswa") price = 95000;
     else price = 0;
 
-    if (formData["bundle"] === 0) price = 0;
-    else price *= formData["bundle"];
+    if (registData["bundle"] === 0) price = 0;
+    else price *= registData["bundle"];
 
     if (price > 0) {
-      if (formData["bundle"] === 2) price -= (5000 * formData["bundle"]);
-      else if (formData["bundle"] === 4) price -= (10000 * formData["bundle"]);
-      else if (formData["bundle"] === 5) price -= (15000 * formData["bundle"]);
-      else if (formData["bundle"] === 8) price -= (30000 * formData["bundle"]);
+      if (registData["bundle"] === 2) price -= (5000 * registData["bundle"]);
+      else if (registData["bundle"] === 4) price -= (10000 * registData["bundle"]);
+      else if (registData["bundle"] === 5) price -= (15000 * registData["bundle"]);
+      else if (registData["bundle"] === 8) price -= (30000 * registData["bundle"]);
     }
 
     setHarga(price);
@@ -83,17 +131,17 @@ export default function FormPage() {
 
   useEffect(() => {
     hitungHarga();
-  }, [formData]);
+  }, [registData]);
 
   return (
     <div className="bg-cover bg-center bg-no-repeat bg-fixed bg-bg">
-
+      {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} />}
       <div className="flex flex-col items-center justify-center py-6 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="my-2 text-center text-3xl font-extrabold text-white">Registrasi Symposium <br></br> and Workshop</h2>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -102,7 +150,7 @@ export default function FormPage() {
                 </label>
                 <div className="mt-1">
                   <input name="nama" type="text" required
-                    value={formData["nama"]}
+                    value={registData["nama"]}
                     onChange={handleInputChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -115,7 +163,7 @@ export default function FormPage() {
                 </label>
                 <div className="mt-1">
                   <input name="noHp" type="tel" pattern="[0]{1}[0-9]{9,12}" required
-                    value={formData["noHp"]}
+                    value={registData["noHp"]}
                     onChange={handleInputChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -128,7 +176,7 @@ export default function FormPage() {
                 </label>
                 <div className="mt-1">
                   <input name="email" type="email" required
-                    value={formData["email"]}
+                    value={registData["email"]}
                     onChange={handleInputChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -141,7 +189,7 @@ export default function FormPage() {
                 </label>
                 <div className="mt-1">
                   <input name="instansi" type="text" required
-                    value={formData["instansi"]}
+                    value={registData["instansi"]}
                     onChange={handleInputChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -153,7 +201,7 @@ export default function FormPage() {
                   Pekerjaan <sup className="text-red-500">*</sup>
                 </label>
                 <div className="flex items-center my-2">
-                  <input name="pekerjaan" type="radio" value="Spesialis" checked={formData["pekerjaan"] === "Spesialis"} required
+                  <input name="pekerjaan" type="radio" value="Spesialis" checked={registData["pekerjaan"] === "Spesialis"} required
                     onChange={handleInputChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                   />
@@ -162,7 +210,7 @@ export default function FormPage() {
                   </label>
                 </div>
                 <div className="flex items-center my-2">
-                  <input name="pekerjaan" type="radio" value="Dokter" checked={formData["pekerjaan"] === "Dokter"}
+                  <input name="pekerjaan" type="radio" value="Dokter" checked={registData["pekerjaan"] === "Dokter"}
                     onChange={handleInputChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                   />
@@ -171,7 +219,7 @@ export default function FormPage() {
                   </label>
                 </div>
                 <div className="flex items-center my-2">
-                  <input name="pekerjaan" type="radio" value="Mahasiswa" checked={formData["pekerjaan"] === "Mahasiswa"}
+                  <input name="pekerjaan" type="radio" value="Mahasiswa" checked={registData["pekerjaan"] === "Mahasiswa"}
                     onChange={handleInputChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                   />
@@ -186,7 +234,7 @@ export default function FormPage() {
                   Pilihan Bundle <sup className="text-red-500">*</sup>
                 </label>
                 <div className="flex items-center my-2">
-                  <input name="bundle" type="radio" value="1" checked={formData["bundle"] === 1} required
+                  <input name="bundle" type="radio" value="1" checked={registData["bundle"] === 1} required
                     onChange={handleInputChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                   />
@@ -195,7 +243,7 @@ export default function FormPage() {
                   </label>
                 </div>
                 <div className="flex items-center my-2">
-                  <input name="bundle" type="radio" value="2" checked={formData["bundle"] === 2}
+                  <input name="bundle" type="radio" value="2" checked={registData["bundle"] === 2}
                     onChange={handleInputChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                   />
@@ -204,7 +252,7 @@ export default function FormPage() {
                   </label>
                 </div>
                 <div className="flex items-center my-2">
-                  <input name="bundle" type="radio" value="4" checked={formData["bundle"] === 4}
+                  <input name="bundle" type="radio" value="4" checked={registData["bundle"] === 4}
                     onChange={handleInputChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                   />
@@ -213,7 +261,7 @@ export default function FormPage() {
                   </label>
                 </div>
                 <div className="flex items-center my-2">
-                  <input name="bundle" type="radio" value="5" checked={formData["bundle"] === 5}
+                  <input name="bundle" type="radio" value="5" checked={registData["bundle"] === 5}
                     onChange={handleInputChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                   />
@@ -222,7 +270,7 @@ export default function FormPage() {
                   </label>
                 </div>
                 <div className="flex items-center my-2">
-                  <input name="bundle" type="radio" value="8" checked={formData["bundle"] === 8}
+                  <input name="bundle" type="radio" value="8" checked={registData["bundle"] === 8}
                     onChange={handleInputChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
                   />
@@ -232,12 +280,28 @@ export default function FormPage() {
                 </div>
               </div>
 
+              <div className={`${registData["bundle"] > 1 ? "" : "hidden"}`}>
+                <label className="block text-sm font-medium text-gray-700">
+                  Anggota Bundle <sup className="text-red-500">*</sup>
+                </label>
+                <div className="mt-1">
+                  {registData["bundleBuddies"].map((input, index) => (
+                    <input name="bundleBuddies" key={index} type="text" value={input}
+                      placeholder={`Nama Anggota ${index + 1}`}
+                      className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      onChange={(e) => handleBundleInputChange(e, index)}
+                      required={registData["bundle"] > 1}
+                    />
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Kode Referral (opsional)
                 </label>
                 <div className="mt-1">
-                  <input name="kodeReferral" type="text" value={formData["kodeReferral"]}
+                  <input name="kodeReferral" type="text" value={registData["kodeReferral"]}
                     onChange={handleInputChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -255,7 +319,7 @@ export default function FormPage() {
                   Bukti Transfer <sup className="text-red-500">*</sup>
                 </label>
                 <div className="mt-1">
-                  <input name="buktiTransfer" type="file" value={formData["buktiTransferFilename"]} accept="image/png, image/jpeg" required
+                  <input name="buktiTransfer" type="file" accept="image/png, image/jpeg" required
                     onChange={handleFileChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
@@ -267,7 +331,7 @@ export default function FormPage() {
                   Nama Akun Transfer <sup className="text-red-500">*</sup>
                 </label>
                 <div className="mt-1">
-                  <input name="namaAkunTransfer" type="text" value={formData["namaAkunTransfer"]} required
+                  <input name="namaAkunTransfer" type="text" value={registData["namaAkunTransfer"]} required
                     onChange={handleInputChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
