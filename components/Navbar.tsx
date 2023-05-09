@@ -9,7 +9,7 @@ function Navbar() {
             <div className="flex gap-20 items-center">
                 <a href='/'>Home</a>
                 <a href='/about'>About</a>
-                <a href='/'>Register</a>
+                <a href='/registration'>Registration</a>
                 <a href='/'>Booklet</a>
             </div>
         </div>

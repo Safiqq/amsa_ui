@@ -5,6 +5,10 @@
   font-family: 'alegreya';
   src: url('/fonts/Alegreya-Regular.otf');
 }
+@font-face {
+  font-family: 'rose-knight';
+  src: url('/fonts/RoseKnightRegular.ttf');
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -28,4 +32,9 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+
+::-webkit-scrollbar {
+  display: none;
 }
