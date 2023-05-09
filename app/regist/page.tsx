@@ -71,10 +71,12 @@ export default function FormPage() {
     if (formData["bundle"] === 0) price = 0;
     else price *= formData["bundle"];
 
-    if (formData["bundle"] === 2) price -= (5000 * formData["bundle"]);
-    else if (formData["bundle"] === 4) price -= (10000 * formData["bundle"]);
-    else if (formData["bundle"] === 5) price -= (15000 * formData["bundle"]);
-    else if (formData["bundle"] === 8) price -= (30000 * formData["bundle"]);
+    if (price > 0) {
+      if (formData["bundle"] === 2) price -= (5000 * formData["bundle"]);
+      else if (formData["bundle"] === 4) price -= (10000 * formData["bundle"]);
+      else if (formData["bundle"] === 5) price -= (15000 * formData["bundle"]);
+      else if (formData["bundle"] === 8) price -= (30000 * formData["bundle"]);
+    }
 
     setHarga(price);
   }
