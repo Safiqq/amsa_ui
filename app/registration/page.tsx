@@ -1,5 +1,6 @@
 'use client';
 
+import Navbar from '@/components/Navbar';
 import PopupModal from '@/components/PopupModal';
 import React, { useState, useEffect } from 'react';
 
@@ -134,14 +135,15 @@ export default function FormPage() {
   }, [registData]);
 
   return (
-    <div className="bg-cover bg-center bg-no-repeat bg-fixed bg-bg">
+    <main className="flex min-h-screen flex-col items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
+      <Navbar />
       {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} />}
-      <div className="flex flex-col items-center justify-center py-6 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="my-2 text-center text-3xl font-extrabold text-white">Registrasi Symposium <br></br> and Workshop</h2>
+      <div className="flex flex-col items-center justify-center py-6 w-full sm:px-6 lg:px-8">
+        <div className="lg:my-10 my-2 sm:mx-auto sm:w-full">
+          <h2 className="text-center text-5xl text-white font-rose-knight">Registrasi Symposium <br></br> and Workshop</h2>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
+        <div className="sm:mx-auto sm:w-full sm:max-w-lg">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -343,6 +345,6 @@ export default function FormPage() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -8,9 +8,9 @@ function Navbar() {
             </div>
             <div className="flex gap-20 items-center">
                 <a href='/'>Home</a>
-                <a href='/about'>About</a>
+                {/* <a href='/about'>About</a> */}
                 <a href='/registration'>Registration</a>
-                <a href='/'>Booklet</a>
+                {/* <a href='/booklet'>Booklet</a> */}
             </div>
         </div>
     )
