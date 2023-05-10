@@ -161,7 +161,7 @@ export default function FormPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  No. HP <sup className="text-red-500">*</sup>
+                  Nomor WA <sup className="text-red-500">*</sup>
                 </label>
                 <div className="mt-1">
                   <input name="noHp" type="tel" pattern="[0]{1}[0-9]{9,12}" required

@@ -6,7 +6,7 @@ function Navbar() {
             <div className="">
                 <img src="/amsa-indonesia.png" alt="" className='h-[70px]' />
             </div>
-            <div className="flex gap-20 items-center">
+            <div className="flex gap-20 items-center text-white">
                 <a href='/'>Home</a>
                 {/* <a href='/about'>About</a> */}
                 <a href='/registration'>Registration</a>
