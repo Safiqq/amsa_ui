@@ -1,6 +1,7 @@
 'use client';
 
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import PopupModal from '@/components/PopupModal';
 import React, { useState, useEffect } from 'react';
 
@@ -345,6 +346,7 @@ export default function FormPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </main>
   );
-}
+};
