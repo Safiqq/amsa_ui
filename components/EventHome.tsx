@@ -33,15 +33,16 @@ function EventHome(props: {
     };
 
     return (
-        <div className="flex justify-between items-center w-full text-3xl">
+        <div className="flex justify-between items-center w-full text-sm md:text-base lg:text-3xl">
             <div className="py-4 px-2">
                 <div className="font-rose-knight">{props.title}</div>
                 {
                     props.subtitle.length !== 0 &&
-                    <div className="font-alegreya uppercase text-base">{'"'}{enlargeFirstLetters(props.subtitle)}{'"'}</div>
+                    <div className="font-alegreya uppercase text-xs lg:text-base">{'"'}{enlargeFirstLetters(props.subtitle)}{'"'}</div>
                 }
+                <div className='font-alegreya lg:hidden'>{props.date}</div>
             </div>
-            <div className='font-alegreya text-2xl'>{props.date}</div>
+            <div className='font-alegreya text-xs md:text-2xl hidden lg:flex'>{props.date}</div>
         </div>
     )
 }
