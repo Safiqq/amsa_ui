@@ -141,9 +141,13 @@ export default function FormPage() {
         <Navbar />
         {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} />}
         <div className="lg:my-10 my-2 sm:mx-auto sm:w-full">
-          <h2 className="text-center text-xl lg:text-5xl text-white font-rose-knight">Registrasi Symposium <br></br> and Workshop</h2>
+          <div className="lg:my-10 my-2 sm:mx-auto sm:w-full">
+            <h2 data-aos="flip-down" className='text-center text-xl lg:text-5xl text-white font-rose-knight'>
+              Registrasi Symposium <br></br> and Workshop
+            </h2>
+          </div>
         </div>
-        <div className="sm:mx-auto sm:w-full sm:max-w-lg">
+        <div className="w-[90%] mb-8 font-alegreya">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>

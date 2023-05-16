@@ -1,9 +1,17 @@
+'use client';
+
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import React from 'react';
+import React, { useEffect } from 'react';
 import EventHome from '@/components/EventHome';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function Home() {
+  useEffect(() => {
+    AOS.init({ delay: 100, duration: 1000 });
+  }, []);
+
   const enlargeFirstLetters = (text: string) => {
     const words = text.split(' ');
 
@@ -38,7 +46,7 @@ export default function Home() {
       <div className="w-full flex flex-col items-center mb-10">
         <Navbar />
         {/* Hero */}
-        <div className="w-[80%] lg:w-[90%] flex flex-col justify-center items-center">
+        <div data-aos="zoom-in-up" className="w-[80%] lg:w-[90%] flex flex-col justify-center items-center">
           <img src={"/ethnosphere.png"} alt='logo' className='mt-16 w-[800px]'></img>
           <h1 className='tracking-wide text-center mt-3 text-xs md:text-base lg:text-3xl text-[#FBD493] font-alegreya uppercase'>{'❝'}{enlargeFirstLetters("Elicit New Objectives and Insights on")}<br />{enlargeFirstLetters("Obstetrics and Gynecology")}{'❞'}</h1>
         </div>

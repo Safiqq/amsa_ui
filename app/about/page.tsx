@@ -1,25 +1,33 @@
+'use client';
+
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function About() {
+    useEffect(() => {
+        AOS.init({ delay: 100, duration: 1000 });
+    }, []);
     return (
         <main className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
             <div className="w-full flex flex-col items-center mb-10">
                 <Navbar />
                 <div className='flex flex-col items-center justify-center py-6 w-full sm:px-6 lg:px-8'>
                     <div className="lg:my-10 my-2 sm:mx-auto sm:w-full">
-                        <h2 className='text-center text-xl lg:text-5xl text-white font-rose-knight'>
+                        <h2 data-aos="flip-down" className='text-center text-xl lg:text-5xl text-white font-rose-knight'>
                             About <span className='mr-3'>AMSA</span> National Project
                         </h2>
                     </div>
-                    <div className="w-[90%] bg-[#44609C] border-[6px] border-[#6d90db] p-2 lg:p-10 rounded-xl font-alegreya text-xs md:text-sm lg:text-xl text-center">
+                    <div data-aos="zoom-in" className="w-[90%] bg-[#44609C] border-[6px] border-[#6d90db] p-2 lg:p-10 rounded-xl font-alegreya text-xs md:text-sm lg:text-xl text-center">
                         AMSA National Project adalah program kerja tahunan yang dilaksanakan oleh AMSA-Indonesia. AMSA National Project merupakan puncak dari AMSA District Project yang dilaksanakan oleh keenam distrik di AMSA-Indonesia. Pada tahun ini, AMSA National Project akan membawakan tema “Obstetrics and Gynecology”. Acara ini diharapkan dapat menjadi wadah kolaborasi bagi anggota AMSA-Indonesia dari berbagai universitas untuk bersama-sama memberikan kebermanfaatan bagi masyarakat umum dan berbagai pihak lainnya.
                     </div>
                     <div className="w-[90%] flex flex-col md:flex-row mt-8 lg:mt-20 items-center">
-                        <h2 className='text-center text-xl md:text-2xl my-2 lg:text-5xl text-white font-rose-knight'>
+                        <h2 data-aos="flip-right" className='text-center text-xl md:text-2xl my-2 lg:text-5xl text-white font-rose-knight'>
                             This Year Theme
                         </h2>
-                        <div className="w-[90%] bg-[#44609C] border-[6px] border-[#6d90db] py-5 pl-6 p-2 lg:p-10 rounded-xl font-alegreya text-xs md:text-sm lg:text-xl">
+                        <div data-aos="fade-down" className="w-[90%] bg-[#44609C] border-[6px] border-[#6d90db] py-5 pl-6 p-2 lg:p-10 rounded-xl font-alegreya text-xs md:text-sm lg:text-xl">
                             <h3 className='text-xl lg:text-4xl text-center font-rose-knight mb-2'>
                                 Obstetrics and Gynecology
                             </h3>

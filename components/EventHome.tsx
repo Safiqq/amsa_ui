@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function EventHome(props: {
     subtitle: string; title: string; date: string;
 }) {
+    useEffect(() => {
+        AOS.init({ delay: 100, duration: 1000 });
+    }, []);
+
     const enlargeFirstLetters = (text: string) => {
         const words = text.split(' ');
 
@@ -33,7 +39,7 @@ function EventHome(props: {
     };
 
     return (
-        <div className="flex justify-between items-center w-full text-sm md:text-base lg:text-3xl">
+        <div data-aos="fade-right" className="flex justify-between items-center w-full text-sm md:text-base lg:text-3xl">
             <div className="py-4 px-2">
                 <div className="font-rose-knight">{props.title}</div>
                 {
