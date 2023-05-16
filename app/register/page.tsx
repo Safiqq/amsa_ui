@@ -32,6 +32,7 @@ interface IRegistData {
   },
   namaAkunTransfer: string,
   bundleBuddies: IBuddiesData[],
+  day: number,
 };
 
 console.warn = () => { };
@@ -51,6 +52,7 @@ export default function FormPage() {
     },
     namaAkunTransfer: '',
     bundleBuddies: [],
+    day: 0,
   });
   const [modal, setModal] = useState({
     isVisible: false,
@@ -77,19 +79,33 @@ export default function FormPage() {
 
   const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;
+    let newRegistData = { ...registData };
     if (name === "bundle") {
       const arrLen = parseInt(value) > 1 ? parseInt(value) - 1 : 0;
       const newBundleBuddies = Array(arrLen).fill({ nama: '', noHp: '', email: '', instansi: '' });
       for (let i = 0; i < Math.min(registData["bundleBuddies"].length, arrLen); i++) {
         newBundleBuddies[i] = registData["bundleBuddies"][i];
       }
-      setRegistData({ ...registData, [name]: parseInt(value), bundleBuddies: newBundleBuddies });
-    } else setRegistData({ ...registData, [name]: value });
+      newRegistData = { ...newRegistData, [name]: parseInt(value), bundleBuddies: newBundleBuddies };
+    } else if (name === "day") {
+      newRegistData = { ...newRegistData, [name]: parseInt(value) };
+    } else newRegistData = { ...newRegistData, [name]: value };
+
+    if (registData.pekerjaan !== "Mahasiswa" && registData.bundle === -1) {
+      newRegistData = { ...newRegistData, bundle: 0 };
+    }
+
+    if (registData.pekerjaan !== "Mahasiswa" && registData.bundle !== -1 && registData.day > 0) {
+      newRegistData = { ...newRegistData, day: 0 };
+    }
+
+    setRegistData(newRegistData);
   };
 
   const handleBundleInputChange = (event: any, index: any) => {
+    const name = event.target.name.split('.')[1];
     let newBundleBuddies = [...registData["bundleBuddies"]];
-    newBundleBuddies[index] = event.target.value;
+    newBundleBuddies[index] = { ...newBundleBuddies[index], [name]: event.target.value };
     setRegistData({ ...registData, bundleBuddies: newBundleBuddies });
   };
 
@@ -316,6 +332,32 @@ export default function FormPage() {
                 </div>
               </div>
 
+              {registData["pekerjaan"] === "Mahasiswa" && registData["bundle"] === -1 && (<div>
+                <div>
+                  Pilihan Day <sup className="text-red-500">*</sup>
+                </div>
+                <div className="flex items-center my-2">
+                  <input name="day" type="radio" value="1" checked={registData["day"] === 1}
+                    onChange={handleInputChange}
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                    required={registData.bundle === -1}
+                  />
+                  <div className="ml-3">
+                    Day 1
+                  </div>
+                </div>
+                <div className="flex items-center my-2">
+                  <input name="day" type="radio" value="2" checked={registData["day"] === 2}
+                    onChange={handleInputChange}
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                    required={registData.bundle === -1}
+                  />
+                  <div className="ml-3">
+                    Day 2
+                  </div>
+                </div>
+              </div>)}
+
               <div className={`${registData["bundle"] > 1 ? "" : "hidden"}`}>
                 <div>
                   Anggota Bundle <sup className="text-red-500">*</sup>
@@ -324,7 +366,7 @@ export default function FormPage() {
                   {registData["bundleBuddies"].map((input, index) => (
                     <div key={index} className={`mb-4 border-gray-300 ${index != registData["bundleBuddies"].length - 1 ? 'pb-2 border-b-2' : ''}`}>
                       {/* Nama Anggota x */}
-                      <input name="bundleBuddies" type="text" value={input["nama"]}
+                      <input name="bundleBuddies.nama" type="text" value={input["nama"]}
                         placeholder={`Nama Anggota ${index + 1}*`}
                         className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         onChange={(e) => handleBundleInputChange(e, index)}
@@ -332,7 +374,7 @@ export default function FormPage() {
                       />
 
                       {/* No. WA Anggota x */}
-                      <input name="noHp" type="tel" pattern="[0]{1}[0-9]{9,12}" value={input["noHp"]}
+                      <input name="bundleBuddies.noHp" type="tel" pattern="[0]{1}[0-9]{9,12}" value={input["noHp"]}
                         placeholder={`Nomor WA Anggota ${index + 1}*`}
                         className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         onChange={(e) => handleBundleInputChange(e, index)}
@@ -340,7 +382,7 @@ export default function FormPage() {
                       />
 
                       {/* Email Anggota x */}
-                      <input name="bundleBuddies" type="email" value={input["email"]}
+                      <input name="bundleBuddies.email" type="email" value={input["email"]}
                         placeholder={`Email Anggota ${index + 1}*`}
                         className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         onChange={(e) => handleBundleInputChange(e, index)}
@@ -348,7 +390,7 @@ export default function FormPage() {
                       />
 
                       {/* Asal Instansi Anggota x */}
-                      <input name="bundleBuddies" type="text" value={input["instansi"]}
+                      <input name="bundleBuddies.instansi" type="text" value={input["instansi"]}
                         placeholder={`Asal Instansi Anggota ${index + 1}*`}
                         className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         onChange={(e) => handleBundleInputChange(e, index)}
@@ -386,7 +428,7 @@ export default function FormPage() {
                       <Image src={Copy} height="20" width="20" alt="copy" className='mr-1 px-[3px] rounded-md' />
                     </div>
                   </CopyToClipboard>
-                  <div>{!copied ? '': 'Copied!'}</div>
+                  <div>{!copied ? '' : 'Copied!'}</div>
                 </div>
               </div>
 
