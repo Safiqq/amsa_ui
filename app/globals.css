@@ -39,3 +39,11 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.enlarged-letter {
+  display: inline-block;
+}
+
+.first-letter {
+  font-size: 1.2em; /* Adjust the font size as desired */
+}

@@ -136,14 +136,13 @@ export default function FormPage() {
   }, [registData]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
-      <Navbar />
-      {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} />}
-      <div className="flex flex-col items-center justify-center py-6 w-full sm:px-6 lg:px-8">
+    <main className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
+      <div className="w-full flex flex-col items-center mb-10">
+        <Navbar />
+        {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} />}
         <div className="lg:my-10 my-2 sm:mx-auto sm:w-full">
-          <h2 className="text-center text-5xl text-white font-rose-knight">Registrasi Symposium <br></br> and Workshop</h2>
+          <h2 className="text-center text-xl lg:text-5xl text-white font-rose-knight">Registrasi Symposium <br></br> and Workshop</h2>
         </div>
-
         <div className="sm:mx-auto sm:w-full sm:max-w-lg">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form onSubmit={handleSubmit} className="space-y-6">
