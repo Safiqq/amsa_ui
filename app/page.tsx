@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import React, { useEffect } from 'react';
@@ -47,7 +48,7 @@ export default function Home() {
         <Navbar />
         {/* Hero */}
         <div data-aos="zoom-in-up" className="w-[80%] lg:w-[90%] flex flex-col justify-center items-center">
-          <img src={"/ethnosphere.png"} alt='logo' className='mt-16 w-[800px]'></img>
+          <Image src={"/ethnosphere.png"} width='480' height='480' alt='logo' className='mt-16 w-[800px]'></Image>
           <h1 className='tracking-wide text-center mt-3 text-xs md:text-base lg:text-3xl text-[#FBD493] font-alegreya uppercase'>{'❝'}{enlargeFirstLetters("Elicit New Objectives and Insights on")}<br />{enlargeFirstLetters("Obstetrics and Gynecology")}{'❞'}</h1>
         </div>
         <div className="w-[90%] mb-8 mt-24 font-alegreya divide-y-4 divide-[#5473b8] divide-solid">
