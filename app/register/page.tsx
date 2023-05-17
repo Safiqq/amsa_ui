@@ -61,6 +61,7 @@ export default function FormPage() {
   });
   const [harga, setHarga] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [referralCode, setReferralCode] = useState(false);
 
   const handleCopy = () => {
     setCopied(true);
@@ -76,6 +77,19 @@ export default function FormPage() {
       message: message,
     });
   };
+
+  const handleReferralCodeChange = (event: any) => {
+    if (!referralCode) {
+      const referralCodes = ["RANPD1", "RANPD2", "RANPD3", "RANPD4", "RANPD5", "RANPD6"];
+      const value = registData["kodeReferral"];
+      if (referralCodes.includes(value.toUpperCase())) {
+        setReferralCode(true);
+        handleModal(true, "success", "Kode referral berhasil digunakan.");
+      } else {
+        handleModal(true, "error", "Kode referral tidak tersedia.");
+      }
+    }
+  }
 
   const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
     const { name, value } = event.target;
@@ -162,6 +176,8 @@ export default function FormPage() {
       else if (registData["bundle"] === 4) price -= (10000 * registData["bundle"]);
       else if (registData["bundle"] === 5) price -= (15000 * registData["bundle"]);
       else if (registData["bundle"] === 8) price -= (30000 * registData["bundle"]);
+
+      if (referralCode) price -= 5000;
     }
 
     setHarga(price);
@@ -169,7 +185,7 @@ export default function FormPage() {
 
   useEffect(() => {
     hitungHarga();
-  }, [registData]);
+  }, [registData, referralCode]);
 
   return (
     <main className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
@@ -405,11 +421,15 @@ export default function FormPage() {
                 <div>
                   Kode Referral (opsional)
                 </div>
-                <div className="mt-1">
+                <div className="mt-1 flex items-center">
                   <input name="kodeReferral" type="text" value={registData["kodeReferral"]}
                     onChange={handleInputChange}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    readOnly={referralCode}
                   />
+                  <div
+                    onClick={handleReferralCodeChange}
+                    className={`${referralCode ? "bg-gray-400" : "cursor-pointer bg-indigo-600 hover:bg-indigo-700"} mx-2 py-2 px-4 text-white rounded-lg`}>Check</div>
                 </div>
               </div>
 
@@ -421,14 +441,17 @@ export default function FormPage() {
 
               <div>
                 <div>Nomor Rekening</div>
-                <div className='flex items-center'>
-                  <div>BNI 12345678</div>
-                  <CopyToClipboard text="12345678" onCopy={handleCopy}>
-                    <div className='cursor-pointer ml-1'>
-                      <Image src={Copy} height="20" width="20" alt="copy" className='mr-1 px-[3px] rounded-md' />
-                    </div>
-                  </CopyToClipboard>
-                  <div>{!copied ? '' : 'Copied!'}</div>
+                <div className='flex-col mt-1'>
+                  <div className='flex items-center'>
+                    <div>BCA 5771089926</div>
+                    <CopyToClipboard text="5771089926" onCopy={handleCopy}>
+                      <div className='cursor-pointer ml-1'>
+                        <Image src={Copy} height="20" width="20" alt="copy" className='mr-1 px-[3px] rounded-md' />
+                      </div>
+                    </CopyToClipboard>
+                    <div>{!copied ? '' : 'Copied!'}</div>
+                  </div>
+                  <div>a/n Amanda Shasykiran</div>
                 </div>
               </div>
 
@@ -456,7 +479,7 @@ export default function FormPage() {
                 </div>
               </div>
 
-              <button className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm  text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none" type="submit">Submit</button>
+              <button className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none" type="submit">Submit</button>
             </form>
           </div>
         </div>
