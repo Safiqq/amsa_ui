@@ -12,6 +12,7 @@ function Navbar() {
             <div className="flex gap-4 md:gap-10 lg:gap-20 items-center text-white text-xs md:text-sm lg:text-lg">
                 <a href='/'>Home</a>
                 <a href='/about'>About</a>
+                <a href='/events'>Events</a>
                 <a href='/register'>Register</a>
                 <a href='/booklet'>Booklet</a>
             </div>
