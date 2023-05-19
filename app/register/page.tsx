@@ -451,7 +451,7 @@ export default function FormPage() {
                     </CopyToClipboard>
                     <div>{!copied ? '' : 'Copied!'}</div>
                   </div>
-                  <div>a/n Amanda Shasykiran</div>
+                  <div>a/n Amanda Shasykirani</div>
                 </div>
               </div>
 
