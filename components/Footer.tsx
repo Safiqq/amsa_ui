@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 import WhatsApp from '/public/whatsapp.svg';
+import Line from '/public/line.svg';
 import Instagram from '/public/instagram.svg';
 
 function Footer() {
@@ -41,11 +42,30 @@ function Footer() {
                 </div>
                 <div className='basis-1/3'>
                     <div className='mb-2 font-rose-knight font-bold right-20'>Contacts</div>
-                    <div>Syafiq Ziyadul Arifin</div>
-                    <Link href='https://wa.me/6281234567890?text=Hi,%20my%20name%20is%20' className='flex items-center'>
-                        <Image src={WhatsApp} height="28" width="28" alt="whatsapp" className='mr-1 bg-[#075e54] p-1 rounded-full' />
-                        <div>081234567890</div>
-                    </Link>
+                    <div className="space-y-3">
+                        <div>
+                            <div>Muhammad Zen Zaidan</div>
+                            <Link href='https://wa.me/6285713130448' className='flex items-center'>
+                                <Image src={WhatsApp} height="28" width="28" alt="whatsapp" className='mr-1 bg-[#075e54] p-1 rounded-full' />
+                                <div>085713130448</div>
+                            </Link>
+                            <p className='flex items-center'>
+                                <Image src={Line} height="28" width="28" alt="line" className='mr-1 bg-[#075e54] p-1 rounded-full' />
+                                <div>zenzaidan15</div>
+                            </p>
+                        </div>
+                        <div>
+                            <div>Danella Raissa Widya</div>
+                            <Link href='https://wa.me/6281228780370' className='flex items-center'>
+                                <Image src={WhatsApp} height="28" width="28" alt="whatsapp" className='mr-1 bg-[#075e54] p-1 rounded-full' />
+                                <div>081228780370</div>
+                            </Link>
+                            <p className='flex items-center'>
+                                <Image src={Line} height="28" width="28" alt="line" className='mr-1 bg-[#075e54] p-1 rounded-full' />
+                                <div>danellapk6</div>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>
