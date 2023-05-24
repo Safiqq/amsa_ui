@@ -137,7 +137,7 @@ export default function FormPage() {
         };
       } else {
         event.target.value = null;
-        handleModal(true, "error", "Maximum files is 1MB!");
+        handleModal(true, "error", "Maximum file size is 1MB!");
       }
     }
   }
@@ -465,9 +465,7 @@ export default function FormPage() {
                 <div>
                   Bukti Transfer <sup className="text-red-500">*</sup>
                 </div>
-                <div className='text-xs'>
-                  Maximum files is 1MB
-                </div>
+                <div className='opacity-60'>Maximum file size: 1MB</div>
                 <div className="mt-1">
                   <input name="buktiTransfer" type="file" accept="image/png, image/jpeg" required
                     onChange={handleFileChange}
