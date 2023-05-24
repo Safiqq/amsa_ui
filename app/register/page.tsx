@@ -9,6 +9,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Copy from '/public/copy.svg';
 
 const UPLOAD_URL = "https://amsa-ui-be.vercel.app/upload/";
+// const UPLOAD_URL = "http://localhost:8000/upload/";
 
 interface IBuddiesData {
   nama: string,
@@ -126,13 +127,18 @@ export default function FormPage() {
   const handleFileChange = (event: { target: { name: any; value: any, files: any; }; }) => {
     const { name, value, files } = event.target;
     if (files.length > 0) {
-      let reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      reader.onload = function (e) {
-        if (e.target) {
-          setRegistData({ ...registData, [name]: { file: e.target.result, filename: value.split('\\').pop().split('/').pop(), mimetype: files[0].type } });
-        }
-      };
+      if ((files[0].size / 1024) <= 1024) {
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = function (e) {
+          if (e.target) {
+            setRegistData({ ...registData, [name]: { file: e.target.result, filename: value.split('\\').pop().split('/').pop(), mimetype: files[0].type } });
+          }
+        };
+      } else {
+        event.target.value = null;
+        handleModal(true, "error", "Maximum files is 1MB!");
+      }
     }
   }
 
@@ -458,6 +464,9 @@ export default function FormPage() {
               <div>
                 <div>
                   Bukti Transfer <sup className="text-red-500">*</sup>
+                </div>
+                <div className='text-xs'>
+                  Maximum files is 1MB
                 </div>
                 <div className="mt-1">
                   <input name="buktiTransfer" type="file" accept="image/png, image/jpeg" required
