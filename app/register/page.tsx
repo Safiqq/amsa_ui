@@ -154,7 +154,7 @@ export default function FormPage() {
       .then(response => response.json())
       .then(data => {
         if (data.statusCode === 201) {
-          handleModal(true, "success", "Registrasi berhasil!");
+          handleModal(true, "success", "Registrasi berhasil!\nSilakan melakukan konfirmasi kepada CP yang tertera");
         } else {
           handleModal(true, "error", data.message);
         }
