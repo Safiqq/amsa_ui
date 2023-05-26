@@ -26,11 +26,12 @@ interface IRegistData {
   pekerjaan: string,
   bundle: number,
   kodeReferral: string,
-  buktiTransfer: {
-    file: string,
-    filename: string,
-    mimetype: string,
-  },
+  buktiTransfer: string,
+  // buktiTransfer: {
+  //   file: string,
+  //   filename: string,
+  //   mimetype: string,
+  // },
   namaAkunTransfer: string,
   bundleBuddies: IBuddiesData[],
   day: number,
@@ -46,11 +47,12 @@ export default function FormPage() {
     pekerjaan: '',
     bundle: 0,
     kodeReferral: '',
-    buktiTransfer: {
-      file: '',
-      filename: '',
-      mimetype: '',
-    },
+    buktiTransfer: '',
+    // buktiTransfer: {
+    //   file: '',
+    //   filename: '',
+    //   mimetype: '',
+    // },
     namaAkunTransfer: '',
     bundleBuddies: [],
     day: 0,
@@ -124,23 +126,23 @@ export default function FormPage() {
     setRegistData({ ...registData, bundleBuddies: newBundleBuddies });
   };
 
-  const handleFileChange = (event: { target: { name: any; value: any, files: any; }; }) => {
-    const { name, value, files } = event.target;
-    if (files.length > 0) {
-      if ((files[0].size / 1024) <= 1024) {
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = function (e) {
-          if (e.target) {
-            setRegistData({ ...registData, [name]: { file: e.target.result, filename: value.split('\\').pop().split('/').pop(), mimetype: files[0].type } });
-          }
-        };
-      } else {
-        event.target.value = null;
-        handleModal(true, "error", "Maximum file size is 1MB!");
-      }
-    }
-  }
+  // const handleFileChange = (event: { target: { name: any; value: any, files: any; }; }) => {
+  //   const { name, value, files } = event.target;
+  //   if (files.length > 0) {
+  //     if ((files[0].size / 1024) <= 1024) {
+  //       let reader = new FileReader();
+  //       reader.readAsDataURL(files[0]);
+  //       reader.onload = function (e) {
+  //         if (e.target) {
+  //           setRegistData({ ...registData, [name]: { file: e.target.result, filename: value.split('\\').pop().split('/').pop(), mimetype: files[0].type } });
+  //         }
+  //       };
+  //     } else {
+  //       event.target.value = null;
+  //       handleModal(true, "error", "Maximum file size is 1MB!");
+  //     }
+  //   }
+  // }
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -194,7 +196,7 @@ export default function FormPage() {
   }, [registData, referralCode]);
 
   return (
-    <main className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
+    <div className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
       <div className="w-full flex flex-col items-center mb-10">
         <Navbar />
         {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} />}
@@ -465,10 +467,14 @@ export default function FormPage() {
                 <div>
                   Bukti Transfer <sup className="text-red-500">*</sup>
                 </div>
-                <div className='opacity-60'>Maximum file size: 1MB</div>
+                <div className='opacity-60'>Input berupa link Google Drive</div>
                 <div className="mt-1">
-                  <input name="buktiTransfer" type="file" accept="image/png, image/jpeg" required
+                  {/* <input name="buktiTransfer" type="file" accept="image/png, image/jpeg" required
                     onChange={handleFileChange}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  /> */}
+                  <input name="buktiTransfer" type="text" value={registData["buktiTransfer"]} required
+                    onChange={handleInputChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -492,6 +498,6 @@ export default function FormPage() {
         </div>
       </div >
       <Footer />
-    </main >
+    </div >
   );
 };

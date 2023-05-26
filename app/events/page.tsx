@@ -11,7 +11,7 @@ export default function Events() {
         AOS.init({ delay: 100, duration: 1000 });
     }, []);
     return (
-        <main className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
+        <div className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
             <div className="w-full flex flex-col items-center mb-10">
                 <Navbar />
                 <div className='flex flex-col items-center justify-center py-6 w-full sm:px-6 lg:px-8'>
@@ -100,6 +100,6 @@ export default function Events() {
                 </div>
             </div>
             <Footer />
-        </main>
+        </div>
     );
 };

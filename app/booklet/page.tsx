@@ -3,11 +3,11 @@ import Footer from '@/components/Footer';
 
 export default function Booklet() {
     return (
-        <main className="flex min-h-screen flex-col items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
+        <div className="flex min-h-screen flex-col items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
             {/* Navbar */}
             <Navbar />
             <div className='h-screen'></div>
             <Footer />
-        </main>
+        </div>
     );
 };

@@ -43,7 +43,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
+    <div className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
       <div className="w-full flex flex-col items-center mb-10">
         <Navbar />
         {/* Hero */}
@@ -62,6 +62,6 @@ export default function Home() {
         </div>
       </div>
       <Footer />
-    </main>
+    </div>
   );
 };
