@@ -156,7 +156,7 @@ export default function FormPage() {
       .then(response => response.json())
       .then(data => {
         if (data.statusCode === 201) {
-          handleModal(true, "success", "Registrasi berhasil!\nSilakan melakukan konfirmasi kepada CP yang tertera");
+          handleModal(true, "success", "Registrasi berhasil!\nSilakan melakukan konfirmasi kepada CP yang tertera.");
         } else {
           handleModal(true, "error", data.message);
         }
@@ -199,7 +199,7 @@ export default function FormPage() {
     <div className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
       <div className="w-full flex flex-col items-center mb-10">
         <Navbar />
-        {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} />}
+        {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} day={registData.day} />}
         <div className="lg:my-10 my-4 sm:mx-auto sm:w-full">
           <div className="lg:my-10 my-4 sm:mx-auto sm:w-full">
             <h2 data-aos="flip-down" className='text-center text-xl lg:text-5xl text-white font-rose-knight'>

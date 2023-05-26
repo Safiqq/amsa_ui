@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
 
-const PopupModal = ({ type, message, onClose }: { type: String, message: String, onClose: () => void }) => {
+const PopupModal = ({ type, message, onClose, day }: { type: String, message: String, onClose: () => void, day: number }) => {
   const icon = type === 'success' ? <CheckCircleIcon className="w-10 h-10" /> : <XCircleIcon className="w-10 h-10" />;
+  const WA_GROUP_URLS = ["CaOaJwT3G8ODAUXj8epfaS", "FuutRLa9UV9EbKxOBlgz3y", "FNUaYChMQbI1B49Cumjcsf"];
 
   return (
     <div className="fixed z-50 inset-0 overflow-y-auto">
@@ -23,6 +24,7 @@ const PopupModal = ({ type, message, onClose }: { type: String, message: String,
               <h3 className="text-lg leading-6 font-medium text-gray-900">{type === 'success' ? 'Success' : 'Error'}</h3>
               <div className="mt-2">
                 <p className="text-sm text-gray-500">{message}</p>
+                {type === "success" && message.includes("Registrasi berhasil") && <p className='text-sm text-gray-500'>Link WA: <a href={`https://chat.whatsapp.com/${WA_GROUP_URLS[day]}`} className='cursor-pointer'>https://chat.whatsapp.com/${WA_GROUP_URLS[day]}</a></p>}
               </div>
             </div>
           </div>
