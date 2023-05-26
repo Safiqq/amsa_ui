@@ -8,8 +8,8 @@ import React, { useState, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Copy from '/public/copy.svg';
 
-const UPLOAD_URL = "https://amsa-ui-be.vercel.app/upload/";
-// const UPLOAD_URL = "http://localhost:8000/upload/";
+const UPLOAD_URL = "https://amsa-ui-be.vercel.app/api/register/";
+// const UPLOAD_URL = "http://localhost:8080/api/register/";
 
 interface IBuddiesData {
   nama: string,
