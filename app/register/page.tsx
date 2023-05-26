@@ -170,10 +170,10 @@ export default function FormPage() {
   const hitungHarga = () => {
     let price;
 
-    if (registData["pekerjaan"] === "Spesialis") price = 320000;
-    else if (registData["pekerjaan"] === "Dokter") price = 215000;
-    else if (registData["pekerjaan"] === "Mahasiswa" && registData["bundle"] === -1) price = 50000;
-    else if (registData["pekerjaan"] === "Mahasiswa") price = 95000;
+    if (registData["pekerjaan"] === "Spesialis") price = 350000;
+    else if (registData["pekerjaan"] === "Dokter") price = 240000;
+    else if (registData["pekerjaan"] === "Mahasiswa" && registData["bundle"] === -1) price = 70000;
+    else if (registData["pekerjaan"] === "Mahasiswa") price = 115000;
     else price = 0;
 
     if (registData["bundle"] === 0) price = 0;
