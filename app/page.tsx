@@ -1,14 +1,29 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import React, { useEffect } from 'react';
 import EventHome from '@/components/EventHome';
+import PopupModal from '@/components/PopupModal';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 export default function Home() {
+  const [modal, setModal] = useState({
+    isVisible: true,
+    type: '',
+    message: 'Bagi para peserta yang sudah mendaftar tetapi belum masuk grup WhatsApp dapat menghubungi CP yang tertera.',
+  });
+  
+  const handleModal = (isVisible: boolean, type: string, message: string) => {
+    setModal({
+      isVisible: isVisible,
+      type: type,
+      message: message,
+    });
+  };
+
   useEffect(() => {
     AOS.init({ delay: 100, duration: 1000 });
   }, []);
@@ -46,6 +61,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
       <div className="w-full flex flex-col items-center mb-10">
         <Navbar />
+        {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} day={0} />}
         {/* Hero */}
         <div data-aos="zoom-in-up" className="w-[80%] lg:w-[90%] flex flex-col justify-center items-center">
           <Image src={"/ethnosphere.png"} width='480' height='480' alt='logo' className='mt-16 w-[800px]'></Image>
