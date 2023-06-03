@@ -173,7 +173,7 @@ export default function FormPage() {
     if (registData["pekerjaan"] === "Spesialis") price = 350000;
     else if (registData["pekerjaan"] === "Dokter") price = 240000;
     else if (registData["pekerjaan"] === "Mahasiswa" && registData["bundle"] === -1) price = 70000;
-    else if (registData["pekerjaan"] === "Mahasiswa") price = 115000;
+    else if (registData["pekerjaan"] === "Mahasiswa") price = 70000;
     else price = 0;
 
     if (registData["bundle"] === 0) price = 0;
