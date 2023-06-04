@@ -156,7 +156,7 @@ export default function FormPage() {
       .then(response => response.json())
       .then(data => {
         if (data.statusCode === 201) {
-          handleModal(true, "success", "Registrasi berhasil!\nSilakan melakukan konfirmasi kepada CP yang tertera.");
+          handleModal(true, "success", "Registrasi berhasil!\nSilakan melakukan konfirmasi kepada CP yang tertera");
         } else {
           handleModal(true, "error", data.message);
         }
@@ -173,7 +173,7 @@ export default function FormPage() {
     if (registData["pekerjaan"] === "Spesialis") price = 350000;
     else if (registData["pekerjaan"] === "Dokter") price = 240000;
     else if (registData["pekerjaan"] === "Mahasiswa" && registData["bundle"] === -1) price = 70000;
-    else if (registData["pekerjaan"] === "Mahasiswa") price = 70000;
+    else if (registData["pekerjaan"] === "Mahasiswa") price = 115000;
     else price = 0;
 
     if (registData["bundle"] === 0) price = 0;
@@ -199,15 +199,16 @@ export default function FormPage() {
     <div className="flex min-h-screen flex-col justify-between items-center bg-[url('/bg.png')] bg-no-repeat bg-cover bg-fixed w-screen">
       <div className="w-full flex flex-col items-center mb-10">
         <Navbar />
-        {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} day={registData.day} />}
-        <div className="lg:my-10 my-4 sm:mx-auto sm:w-full">
+        {/* {modal["isVisible"] && <PopupModal type={modal["type"]} message={modal["message"]} onClose={() => { handleModal(false, '', '') }} />} */}
+        <div className="lg:my-10 my-4 sm:mx-auto sm:w-full h-screen">
           <div className="lg:my-10 my-4 sm:mx-auto sm:w-full">
             <h2 data-aos="flip-down" className='text-center text-xl lg:text-5xl text-white font-rose-knight'>
               Registrasi Symposium <br></br> and Workshop
             </h2>
           </div>
+          <div className="w-screen flex justify-center items-center h-1/2 font-alegreya text-3xl">Registration Closed!</div>
         </div>
-        <div className="w-[90%] mb-8 font-alegreya text-gray-700 text-sm md:text-base">
+        {/* <div className="w-[90%] mb-8 font-alegreya text-gray-700 text-sm md:text-base">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className=''>
@@ -389,7 +390,6 @@ export default function FormPage() {
                 <div className="mt-1">
                   {registData["bundleBuddies"].map((input, index) => (
                     <div key={index} className={`mb-4 border-gray-300 ${index != registData["bundleBuddies"].length - 1 ? 'pb-2 border-b-2' : ''}`}>
-                      {/* Nama Anggota x */}
                       <input name="bundleBuddies.nama" type="text" value={input["nama"]}
                         placeholder={`Nama Anggota ${index + 1}*`}
                         className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -397,7 +397,6 @@ export default function FormPage() {
                         required={registData["bundle"] > 1}
                       />
 
-                      {/* No. WA Anggota x */}
                       <input name="bundleBuddies.noHp" type="tel" pattern="[0]{1}[0-9]{9,12}" value={input["noHp"]}
                         placeholder={`Nomor WA Anggota ${index + 1}*`}
                         className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -405,7 +404,6 @@ export default function FormPage() {
                         required={registData["bundle"] > 1}
                       />
 
-                      {/* Email Anggota x */}
                       <input name="bundleBuddies.email" type="email" value={input["email"]}
                         placeholder={`Email Anggota ${index + 1}*`}
                         className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -413,7 +411,6 @@ export default function FormPage() {
                         required={registData["bundle"] > 1}
                       />
 
-                      {/* Asal Instansi Anggota x */}
                       <input name="bundleBuddies.instansi" type="text" value={input["instansi"]}
                         placeholder={`Asal Instansi Anggota ${index + 1}*`}
                         className="my-1.5 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -469,10 +466,7 @@ export default function FormPage() {
                 </div>
                 <div className='opacity-60'>Input berupa link Google Drive</div>
                 <div className="mt-1">
-                  {/* <input name="buktiTransfer" type="file" accept="image/png, image/jpeg" required
-                    onChange={handleFileChange}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  /> */}
+                
                   <input name="buktiTransfer" type="text" value={registData["buktiTransfer"]} required
                     onChange={handleInputChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -495,7 +489,7 @@ export default function FormPage() {
               <button className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none" type="submit">Submit</button>
             </form>
           </div>
-        </div>
+        </div> */}
       </div >
       <Footer />
     </div >
