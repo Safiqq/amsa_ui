@@ -70,7 +70,7 @@ function Footer() {
             </div>
             <div>
                 <div className="text-sm">© 2023 - AMSA Indonesia. All rights reserved.</div>
-                <div className="text-sm">Built by <a href="https://ceavinr.netlify.app/" className="underline">Ceavin Rufus</a> and <a href="https://www.linkedin.com/in/syafiq-ziyadul-arifin" className="underline">Syafiq Ziyadul Arifin</a></div>
+                <div className="text-sm">Built by <a href="https://ceavinrufus.netlify.app/" className="underline">Ceavin Rufus</a> and <a href="https://www.linkedin.com/in/syafiq-ziyadul-arifin" className="underline">Syafiq Ziyadul Arifin</a></div>
             </div>
         </footer>
     );
